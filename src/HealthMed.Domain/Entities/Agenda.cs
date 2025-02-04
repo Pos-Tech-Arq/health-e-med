@@ -10,6 +10,7 @@ public class Agenda : Entidade
         Valor = valor;
     }
 
+    public Guid MedicoId { get; set; }
     public DateTime Data { get; private set; }
     public TimeSpan HorarioInicio { get; private set; }
     public TimeSpan HorarioFim { get; private set; }
