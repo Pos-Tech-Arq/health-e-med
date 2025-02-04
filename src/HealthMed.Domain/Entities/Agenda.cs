@@ -4,8 +4,9 @@ namespace HealthMed.Domain.Entities;
 
 public class Agenda : Entidade
 {
-    public Agenda(DateTime data, TimeSpan horarioInicio, TimeSpan horarioFim, decimal valor)
+    public Agenda(Guid medicoId, DateTime data, TimeSpan horarioInicio, TimeSpan horarioFim, decimal valor)
     {
+        MedicoId = medicoId;
         Data = data;
         HorarioInicio = horarioInicio;
         HorarioFim = horarioFim;
