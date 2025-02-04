@@ -26,9 +26,9 @@ public class Consulta : Entidade
         Status = "Recusado";
     }
 
-    public Guid PacienteId { get; set; }
-    public Guid MedicoId { get; set; }
-    public DateTime Data { get; set; }
-    public TimeSpan Horario { get; set; }
-    public string Status { get; set; }
+    public Guid PacienteId { get; private set; }
+    public Guid MedicoId { get; private set; }
+    public DateTime Data { get; private set; }
+    public TimeSpan Horario { get; private set; }
+    public string Status { get; private set; }
 }
