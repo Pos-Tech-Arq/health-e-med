@@ -1,4 +1,4 @@
-namespace HealthMed.Domain.Commands;
+namespace HealthMed.Application.Commands;
 
 public class CadastroAgendaCommand
 {

@@ -1,6 +1,6 @@
 using HealthMed.Domain.Entities;
 
-namespace HealthMed.Domain.Contracts;
+namespace HealthMed.Application.Contracts;
 
 public interface IAgendaRepository
 {

@@ -1,5 +1,5 @@
+using HealthMed.Application.Contracts;
 using HealthMed.Domain.Context;
-using HealthMed.Domain.Contracts;
 using HealthMed.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 

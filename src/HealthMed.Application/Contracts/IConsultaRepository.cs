@@ -1,4 +1,4 @@
-namespace HealthMed.Domain.Contracts;
+namespace HealthMed.Application.Contracts;
 
 public interface IConsultaRepository
 {

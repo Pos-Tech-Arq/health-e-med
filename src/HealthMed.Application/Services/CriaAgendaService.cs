@@ -1,7 +1,7 @@
-using HealthMed.Domain.Commands;
-using HealthMed.Domain.Contracts;
+using HealthMed.Application.Commands;
+using HealthMed.Application.Contracts;
 
-namespace HealthMed.Domain.Services;
+namespace HealthMed.Application.Services;
 
 public class CriaAgendaService : ICriaAgendaService
 {

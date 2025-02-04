@@ -1,6 +1,6 @@
-using HealthMed.Domain.Commands;
+using HealthMed.Application.Commands;
 
-namespace HealthMed.Domain.Contracts;
+namespace HealthMed.Application.Contracts;
 
 public interface ICriaAgendaService
 {

@@ -1,3 +1,5 @@
+using HealthMed.Core.Entities;
+
 namespace HealthMed.Domain.Entities;
 
 public class Agenda : Entidade

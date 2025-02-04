@@ -1,4 +1,5 @@
-using HealthMed.Domain.Contracts;
+using HealthMed.Core.Data;
+using HealthMed.Core.Entities;
 
 namespace HealthMed.Domain.Entities;
 

@@ -1,4 +1,4 @@
-namespace HealthMed.Domain.Entities;
+namespace HealthMed.Core.Entities;
 
 public abstract class Entidade
 {
