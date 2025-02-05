@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using HealthMed.Core.Data;
 using HealthMed.Core.Entities;
 
@@ -36,7 +37,6 @@ public class Consulta : Entidade, IAggregateRoot
     public string Status { get; private set; }
 
 
-    public Usuario Paciente { get; private set; } 
-    public Usuario Medico { get; private set; } 
-
+    [ForeignKey("PacienteId")] public virtual Usuario Paciente { get; set; } 
+    [ForeignKey("MedicoId")] public virtual Usuario Medico { get; set; } 
 }

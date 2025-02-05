@@ -1,9 +1,7 @@
-﻿using HealthMed.Infra.Contexts;
+﻿using HealthMed.Domain.Context;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace HealthMed.Infra.Configurations;
+namespace HealthMed.Api.Setup;
 
 public static class ConfigureDatabaseExtension
 {

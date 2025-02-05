@@ -9,11 +9,7 @@ public class ConsultaMapping : IEntityTypeConfiguration<Consulta>
     public void Configure(EntityTypeBuilder<Consulta> builder)
     {
         builder.ToTable("Consultas");
-
-        builder
-            .Property(c => c.Id)
-            .IsRequired();
-
+        
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.PacienteId)
@@ -23,15 +19,27 @@ public class ConsultaMapping : IEntityTypeConfiguration<Consulta>
             .IsRequired();
 
         builder.Property(c => c.Data)
-            .HasColumnType("date")
-            .IsRequired();
+            .IsRequired()
+            .HasColumnType("date"); 
 
         builder.Property(c => c.Horario)
-            .HasColumnType("time")
-            .IsRequired();
-
+            .IsRequired()
+            .HasColumnType("time"); 
         builder.Property(c => c.Status)
-            .HasColumnType("varchar(20)")
-            .IsRequired();
+            .IsRequired()
+            .HasMaxLength(50)
+            .HasDefaultValue("Pendente"); 
+
+
+        builder.HasOne(c => c.Paciente)
+            .WithMany(u => u.ConsultasComoPaciente) 
+            .HasForeignKey(c => c.PacienteId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(c => c.Medico)
+            .WithMany(u => u.ConsultasComoMedico) 
+            .HasForeignKey(c => c.MedicoId)
+            .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

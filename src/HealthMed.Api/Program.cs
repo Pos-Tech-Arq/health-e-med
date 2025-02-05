@@ -8,7 +8,7 @@ builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.AddAuthorization();
-builder.Services.ConfigureIdentity(builder.Configuration);
+builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWTAuthentication(builder.Configuration);
 
 

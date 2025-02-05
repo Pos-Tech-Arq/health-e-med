@@ -1,4 +1,6 @@
-﻿namespace HealthMed.Domain.Entities
+﻿using HealthMed.Core.Entities;
+
+namespace HealthMed.Domain.Entities
 {
     public class Usuario : Entidade
     {
@@ -6,7 +8,8 @@
         {
         }
 
-        public Usuario(string nome, string email, string senha, string tipo, string cpf, string crm, string especialidade)
+        public Usuario(string nome, string email, string senha, string tipo, string cpf, string crm,
+            string especialidade)
         {
             Nome = nome;
             Email = email;
@@ -51,7 +54,7 @@
             }
         }
 
-        public ICollection<Consulta> ConsultasComoPaciente { get; private set; } 
-        public ICollection<Consulta> ConsultasComoMedico { get; private set; } 
+        public ICollection<Consulta> ConsultasComoPaciente { get; private set; }
+        public ICollection<Consulta> ConsultasComoMedico { get; private set; }
     }
 }

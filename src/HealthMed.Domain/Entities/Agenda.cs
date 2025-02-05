@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations.Schema;
 using HealthMed.Core.Entities;
 
 namespace HealthMed.Domain.Entities;
@@ -18,4 +19,6 @@ public class Agenda : Entidade
     public TimeSpan HorarioInicio { get; private set; }
     public TimeSpan HorarioFim { get; private set; }
     public decimal Valor { get; private set; }
+    
+    [ForeignKey("MedicoId")] public virtual Usuario Medico { get; set; }
 }

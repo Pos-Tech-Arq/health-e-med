@@ -6,26 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealthMed.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial_Migration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Agendas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Data = table.Column<DateTime>(type: "date", nullable: false),
-                    HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
-                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agendas", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -191,6 +176,28 @@ namespace HealthMed.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Agendas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MedicoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Data = table.Column<DateTime>(type: "date", nullable: false),
+                    HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
+                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agendas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Agendas_Usuarios_MedicoId",
+                        column: x => x.MedicoId,
+                        principalTable: "Usuarios",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Consultas",
                 columns: table => new
                 {
@@ -217,6 +224,11 @@ namespace HealthMed.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Agendas_MedicoId",
+                table: "Agendas",
+                column: "MedicoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

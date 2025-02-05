@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace HealthMed.Infra.Contexts.Mappings;
+namespace HealthMed.Domain.Context.Mappings;
 
 public class UsuarioMapping : IEntityTypeConfiguration<Usuario>
 {
