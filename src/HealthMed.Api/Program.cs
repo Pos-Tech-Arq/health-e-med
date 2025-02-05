@@ -6,6 +6,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
+builder.Services.ConfigureDatabase(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.ConfigureIdentity(builder.Configuration);
+builder.Services.ConfigureJWTAuthentication(builder.Configuration);
+
 
 var app = builder.Build();
 

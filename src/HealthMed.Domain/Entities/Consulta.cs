@@ -34,4 +34,9 @@ public class Consulta : Entidade, IAggregateRoot
     public DateTime Data { get; private set; }
     public TimeSpan Horario { get; private set; }
     public string Status { get; private set; }
+
+
+    public Usuario Paciente { get; private set; } 
+    public Usuario Medico { get; private set; } 
+
 }
