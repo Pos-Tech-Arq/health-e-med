@@ -1,9 +1,23 @@
+using HealthMed.Infra.Configurations;
+using HealthMed.Infra.Contexts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
+using System.Globalization;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+//var cultureInfo = new CultureInfo("pt-BR");
+//CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+//CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.ConfigureDatabase(builder.Configuration);
+builder.Services.AddAuthorization();
+builder.Services.ConfigureIdentity(builder.Configuration);
+builder.Services.ConfigureJWTAuthentication(builder.Configuration);
+//services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
@@ -16,29 +30,4 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
-
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
