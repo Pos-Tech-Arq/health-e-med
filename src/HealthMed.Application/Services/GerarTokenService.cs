@@ -21,7 +21,7 @@ public class GerarTokenService : IGerarTokenService
         _usuarioRepository = usuarioRepository;
         _appSettings = appSettings.Value;
     }
-    
+
     public async Task<UsuarioLoginResponse> GerarJwt(Usuario usuario)
     {
         var claims = await _usuarioRepository.GetClaimsAsync(usuario);
@@ -62,7 +62,7 @@ public class GerarTokenService : IGerarTokenService
 
         return tokenHandler.WriteToken(token);
     }
-    
+
     private UsuarioLoginResponse ObterRespostaToken(string token, Usuario usuario, IEnumerable<Claim> claims)
     {
         return new UsuarioLoginResponse

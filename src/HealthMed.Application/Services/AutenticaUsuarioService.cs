@@ -36,11 +36,7 @@ public class AutenticaUsuarioService(
     public async Task<UsuarioLoginResponse> Handle(LoginPacienteCommand command)
     {
         var usuario = await usuarioRepository.GetAsync(cpf: command.Cpf);
-        var result = await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
-        if (!result.Succeeded)
-        {
-            throw new DomainException("Usuário ou senha inválidos.");
-        }
+        await ValidaLogin(command.Senha, usuario);
 
         return await tokenService.GerarJwt(usuario);
     }
@@ -48,12 +44,18 @@ public class AutenticaUsuarioService(
     public async Task<UsuarioLoginResponse> Handle(LoginMedicoCommand command)
     {
         var usuario = await usuarioRepository.GetAsync(crm: command.Crm);
-        var result = await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
+        await ValidaLogin(command.Senha, usuario);
+
+        return await tokenService.GerarJwt(usuario);
+    }
+
+    private async Task ValidaLogin(string senha, Usuario usuario)
+    {
+        var result = await signInManager.PasswordSignInAsync(usuario.Email, senha, false, false);
+
         if (!result.Succeeded)
         {
             throw new DomainException("Usuário ou senha inválidos.");
         }
-
-        return await tokenService.GerarJwt(usuario);
     }
 }

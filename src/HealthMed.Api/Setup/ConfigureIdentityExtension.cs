@@ -12,7 +12,7 @@ public static class ConfigureIdentityExtension
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
     }
-    
+
     public static void UseIdentityConfiguration(this IApplicationBuilder app)
     {
         app.UseAuthentication();
