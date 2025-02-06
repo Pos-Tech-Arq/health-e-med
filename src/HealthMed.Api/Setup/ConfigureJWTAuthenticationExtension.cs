@@ -4,9 +4,9 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace HealthMed.Api.Setup;
 
-public static class ConfigureJWTAuthenticationExtension
+public static class ConfigureJwtAuthenticationExtension
 {
-    public static void ConfigureJWTAuthentication(this IServiceCollection serviceCollection,
+    public static void ConfigureJwtAuthentication(this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
         var key = Encoding.UTF8.GetBytes("b5X8mL2qR9vT1zN7aP3cY6wK0gD4sF!");
@@ -26,8 +26,8 @@ public static class ConfigureJWTAuthenticationExtension
 
         serviceCollection.AddAuthorization(options =>
         {
-            options.AddPolicy("MedicoPolicy", policy => policy.RequireRole("Medico"));
-            options.AddPolicy("UsuarioPolicy", policy => policy.RequireRole("Usuario"));
+            options.AddPolicy("SomenteMedico", policy => policy.RequireRole("Medico"));
+            options.AddPolicy("SomentePaciente", policy => policy.RequireRole("Paciente"));
         });
     }
 }

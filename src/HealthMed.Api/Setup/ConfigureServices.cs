@@ -9,6 +9,6 @@ public static class ConfigureServices
     {
         serviceCollection.AddScoped<ICriaAgendaService, CriaAgendaService>();
         serviceCollection.AddScoped<IAgendarConsultaService, AgendarConsultaService>();
-        serviceCollection.AddScoped<IRegistraUsuarioService, RegistraUsuarioService>();
+        serviceCollection.AddScoped<IAutenticaUsuarioService, AutenticaUsuarioService>();
     }
 }

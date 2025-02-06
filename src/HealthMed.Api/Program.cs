@@ -7,9 +7,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddRepositories();
 builder.Services.AddServices();
 builder.Services.ConfigureDatabase(builder.Configuration);
-builder.Services.AddAuthorization();
 builder.Services.ConfigureIdentity();
-builder.Services.ConfigureJWTAuthentication(builder.Configuration);
+builder.Services.ConfigureJwtAuthentication(builder.Configuration);
 builder.Services.AddControllers();
 
 var app = builder.Build();

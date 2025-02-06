@@ -1,6 +1,6 @@
-﻿namespace HealthMed.Api.Requests;
+﻿namespace HealthMed.Application.Commands;
 
-public class LoginPacienteRequest
+public class LoginPacienteCommand
 {
     public string Email { get; set; }
     public string Cpf { get; set; }

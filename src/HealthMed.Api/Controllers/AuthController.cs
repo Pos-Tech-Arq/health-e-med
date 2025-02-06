@@ -7,22 +7,21 @@ namespace HealthMed.Api.Controllers;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class AuthController(IRegistraUsuarioService registraUsuarioService) : Controller
+public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : Controller
 {
     [HttpPost("register")]
-    public IActionResult Register([FromBody] RegistrarUsuarioCommand command)
+    public async Task<IActionResult> Register([FromBody] RegistrarUsuarioCommand command)
     {
-        registraUsuarioService.Handle(command);
+        await autenticaUsuarioService.Handle(command);
         return Ok();
     }
 
-    // Endpoint de login de paciente
-    [HttpPost("paciente/auth/login")]
-    public IActionResult LoginPaciente([FromBody] LoginPacienteRequest request)
+    [HttpPost("paciente/login")]
+    public async Task<IActionResult> LoginPaciente([FromBody] LoginPacienteCommand command)
     {
-        // Lógica de autenticação (ex: validar credenciais)
-        var token = "token_gerado_para_paciente";
-        return Ok(new { token });
+        var token = await autenticaUsuarioService.Handle(command);
+
+        return Ok(token);
     }
 
     // Endpoint de login de médico
