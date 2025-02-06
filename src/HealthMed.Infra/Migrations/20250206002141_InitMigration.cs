@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace HealthMed.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial_Migration : Migration
+    public partial class InitMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -15,7 +15,7 @@ namespace HealthMed.Infra.Migrations
                 name: "AspNetRoles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -29,7 +29,11 @@ namespace HealthMed.Infra.Migrations
                 name: "AspNetUsers",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Tipo = table.Column<int>(type: "int", nullable: false),
+                    Cpf = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Crm = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Especialidade = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -51,31 +55,12 @@ namespace HealthMed.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Usuarios",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Nome = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Senha = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Tipo = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    Cpf = table.Column<string>(type: "nvarchar(14)", maxLength: 14, nullable: false),
-                    Crm = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Especialidade = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.Id);
-                    table.CheckConstraint("CK_Usuario_Tipo", "[Tipo] IN ('medico', 'paciente')");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -91,12 +76,34 @@ namespace HealthMed.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Agendas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    MedicoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Data = table.Column<DateTime>(type: "date", nullable: false),
+                    HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
+                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Agendas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Agendas_AspNetUsers_MedicoId",
+                        column: x => x.MedicoId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetUserClaims",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     ClaimType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ClaimValue = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
@@ -118,7 +125,7 @@ namespace HealthMed.Infra.Migrations
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderKey = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ProviderDisplayName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -135,8 +142,8 @@ namespace HealthMed.Infra.Migrations
                 name: "AspNetUserRoles",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RoleId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -159,7 +166,7 @@ namespace HealthMed.Infra.Migrations
                 name: "AspNetUserTokens",
                 columns: table => new
                 {
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     LoginProvider = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -171,28 +178,6 @@ namespace HealthMed.Infra.Migrations
                         name: "FK_AspNetUserTokens_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Agendas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    MedicoId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Data = table.Column<DateTime>(type: "date", nullable: false),
-                    HorarioInicio = table.Column<TimeSpan>(type: "time", nullable: false),
-                    HorarioFim = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Agendas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Agendas_Usuarios_MedicoId",
-                        column: x => x.MedicoId,
-                        principalTable: "Usuarios",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -212,15 +197,15 @@ namespace HealthMed.Infra.Migrations
                 {
                     table.PrimaryKey("PK_Consultas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Consultas_Usuarios_MedicoId",
+                        name: "FK_Consultas_AspNetUsers_MedicoId",
                         column: x => x.MedicoId,
-                        principalTable: "Usuarios",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Consultas_Usuarios_PacienteId",
+                        name: "FK_Consultas_AspNetUsers_PacienteId",
                         column: x => x.PacienteId,
-                        principalTable: "Usuarios",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -278,25 +263,6 @@ namespace HealthMed.Infra.Migrations
                 name: "IX_Consultas_PacienteId",
                 table: "Consultas",
                 column: "PacienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_Cpf",
-                table: "Usuarios",
-                column: "Cpf",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_Crm",
-                table: "Usuarios",
-                column: "Crm",
-                unique: true,
-                filter: "[Crm] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Usuarios_Email",
-                table: "Usuarios",
-                column: "Email",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -328,9 +294,6 @@ namespace HealthMed.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Usuarios");
         }
     }
 }

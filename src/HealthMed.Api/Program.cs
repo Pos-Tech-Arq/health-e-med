@@ -10,7 +10,7 @@ builder.Services.ConfigureDatabase(builder.Configuration);
 builder.Services.AddAuthorization();
 builder.Services.ConfigureIdentity();
 builder.Services.ConfigureJWTAuthentication(builder.Configuration);
-
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
@@ -20,6 +20,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
+app.UseRouting();
+app.MapControllers();
 app.Run();

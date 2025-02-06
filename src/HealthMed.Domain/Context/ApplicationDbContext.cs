@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HealthMed.Domain.Context;
 
-public class ApplicationDbContext : IdentityDbContext<IdentityUser>
+public class ApplicationDbContext : IdentityDbContext<Usuario, IdentityRole<Guid>, Guid>
 {
     public DbSet<Agenda> Agendas { get; set; }
     public DbSet<Consulta> Consultas { get; set; }
-    DbSet<Usuario> Usuarios { get; set; }
+    public DbSet<Usuario> Usuarios { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

@@ -25,21 +25,20 @@ public class ConsultaMapping : IEntityTypeConfiguration<Consulta>
         builder.Property(c => c.Horario)
             .IsRequired()
             .HasColumnType("time"); 
+
         builder.Property(c => c.Status)
             .IsRequired()
             .HasMaxLength(50)
             .HasDefaultValue("Pendente"); 
-
-
+    
         builder.HasOne(c => c.Paciente)
-            .WithMany(u => u.ConsultasComoPaciente) 
+            .WithMany() 
             .HasForeignKey(c => c.PacienteId)
             .OnDelete(DeleteBehavior.Restrict);
-
+        
         builder.HasOne(c => c.Medico)
-            .WithMany(u => u.ConsultasComoMedico) 
+            .WithMany() 
             .HasForeignKey(c => c.MedicoId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 }
