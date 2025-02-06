@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using System.Globalization;
 
+using HealthMed.Api.Setup;
+
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -18,10 +20,11 @@ builder.Services.AddAuthorization();
 builder.Services.ConfigureIdentity(builder.Configuration);
 builder.Services.ConfigureJWTAuthentication(builder.Configuration);
 //services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddRepositories();
+builder.Services.AddServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

@@ -20,4 +20,8 @@
       <ProjectReference Include="..\HealthMed.Infra\HealthMed.Infra.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\HealthMed.Application\HealthMed.Application.csproj" />
+    </ItemGroup>
+
 </Project>

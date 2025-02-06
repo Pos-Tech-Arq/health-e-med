@@ -1,6 +1,9 @@
+using HealthMed.Core.Data;
+using HealthMed.Core.Entities;
+
 namespace HealthMed.Domain.Entities;
 
-public class Consulta : Entidade
+public class Consulta : Entidade, IAggregateRoot
 {
     public Consulta(Guid pacienteId, Guid medicoId, DateTime data, TimeSpan horario)
     {
@@ -10,17 +13,17 @@ public class Consulta : Entidade
         Horario = horario;
         Status = "Pendente";
     }
-    
+
     public void ConfirmarConsulta()
     {
         Status = "Confirmado";
     }
-    
+
     public void CancelarConsulta()
     {
         Status = "Cancelado";
     }
-    
+
     public void RecusarConsulta()
     {
         Status = "Recusado";
