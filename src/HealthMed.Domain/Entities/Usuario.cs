@@ -1,4 +1,6 @@
-﻿namespace HealthMed.Domain.Entities
+﻿using HealthMed.Core.Entities;
+
+namespace HealthMed.Domain.Entities
 {
     public class Usuario : Entidade
     {
