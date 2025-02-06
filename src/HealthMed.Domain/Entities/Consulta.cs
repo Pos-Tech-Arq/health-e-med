@@ -1,0 +1,42 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using HealthMed.Core.Data;
+using HealthMed.Core.Entities;
+
+namespace HealthMed.Domain.Entities;
+
+public class Consulta : Entidade, IAggregateRoot
+{
+    public Consulta(Guid pacienteId, Guid medicoId, DateTime data, TimeSpan horario)
+    {
+        PacienteId = pacienteId;
+        MedicoId = medicoId;
+        Data = data;
+        Horario = horario;
+        Status = "Pendente";
+    }
+
+    public void ConfirmarConsulta()
+    {
+        Status = "Confirmado";
+    }
+
+    public void CancelarConsulta()
+    {
+        Status = "Cancelado";
+    }
+
+    public void RecusarConsulta()
+    {
+        Status = "Recusado";
+    }
+
+    public Guid PacienteId { get; private set; }
+    public Guid MedicoId { get; private set; }
+    public DateTime Data { get; private set; }
+    public TimeSpan Horario { get; private set; }
+    public string Status { get; private set; }
+
+
+    [ForeignKey("PacienteId")] public virtual Usuario Paciente { get; set; } 
+    [ForeignKey("MedicoId")] public virtual Usuario Medico { get; set; } 
+}
