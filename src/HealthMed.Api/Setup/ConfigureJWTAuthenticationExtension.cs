@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HealthMed.Core.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,20 +10,30 @@ public static class ConfigureJwtAuthenticationExtension
     public static void ConfigureJwtAuthentication(this IServiceCollection serviceCollection,
         IConfiguration configuration)
     {
-        var key = Encoding.UTF8.GetBytes("b5X8mL2qR9vT1zN7aP3cY6wK0gD4sF!");
-        serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        var appSettingsSection = configuration.GetSection("AppSettings");
+        serviceCollection.Configure<AppSettings>(appSettingsSection);
+
+        var appSettings = appSettingsSection.Get<AppSettings>();
+        var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+        serviceCollection.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.RequireHttpsMetadata = false;
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false
-                };
-            });
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidAudience = appSettings.ValidoEm,
+                ValidIssuer = appSettings.Emissor
+            };
+        });
 
         serviceCollection.AddAuthorization(options =>
         {

@@ -1,5 +1,4 @@
-﻿using HealthMed.Api.Requests;
-using HealthMed.Application.Commands;
+﻿using HealthMed.Application.Commands;
 using HealthMed.Application.Contracts;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,17 +18,14 @@ public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : 
     [HttpPost("paciente/login")]
     public async Task<IActionResult> LoginPaciente([FromBody] LoginPacienteCommand command)
     {
-        var token = await autenticaUsuarioService.Handle(command);
-
-        return Ok(token);
+        var loginResponse = await autenticaUsuarioService.Handle(command);
+        return Ok(loginResponse);
     }
 
-    // Endpoint de login de médico
-    [HttpPost("medico/auth/login")]
-    public IActionResult LoginMedico([FromBody] LoginMedicoRequest request)
+    [HttpPost("medico/login")]
+    public async Task<IActionResult> LoginMedico([FromBody] LoginMedicoCommand command)
     {
-        // Lógica de autenticação (ex: validar credenciais)
-        var token = "token_gerado_para_medico";
-        return Ok(new { token });
+        var loginResponse = await autenticaUsuarioService.Handle(command);
+        return Ok(loginResponse);
     }
 }

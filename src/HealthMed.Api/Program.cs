@@ -20,5 +20,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
+app.UseIdentityConfiguration();
 app.MapControllers();
 app.Run();

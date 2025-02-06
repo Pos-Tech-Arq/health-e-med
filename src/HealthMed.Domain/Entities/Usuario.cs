@@ -9,12 +9,12 @@ public class Usuario : IdentityUser<Guid>
     {
     }
 
-    public Usuario(string nome, string email, string senha, TipoUsuario tipo, string cpf, string? crm,
+    public Usuario(string nome, string email, TipoUsuario tipo, string cpf, string? crm,
         string? especialidade)
     {
-        UserName = nome;
+        Nome = nome;
+        UserName = email;
         Email = email;
-        PasswordHash = senha;
         Tipo = tipo;
         Cpf = cpf;
         Crm = crm;
@@ -22,6 +22,7 @@ public class Usuario : IdentityUser<Guid>
     }
 
     public TipoUsuario Tipo { get; private set; }
+    public string Nome { get; private set; }
     public string Cpf { get; private set; }
     public string? Crm { get; private set; }
     public string? Especialidade { get; private set; }

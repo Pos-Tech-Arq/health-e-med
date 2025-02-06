@@ -9,6 +9,13 @@ public static class ConfigureIdentityExtension
     public static void ConfigureIdentity(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddIdentity<Usuario, IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+    }
+    
+    public static void UseIdentityConfiguration(this IApplicationBuilder app)
+    {
+        app.UseAuthentication();
+        app.UseAuthorization();
     }
 }

@@ -9,11 +9,18 @@ namespace HealthMed.Infra.Repositories;
 
 public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepository
 {
-    public async Task AddAsync(Usuario usuario)
+    public async Task AddAsync(Usuario usuario, string senha)
     {
-        var claim = new Claim(nameof(TipoUsuario), usuario.Tipo.ToString(), ClaimValueTypes.String);
+        // usuario.SecurityStamp = Guid.NewGuid().ToString();
+        usuario.EmailConfirmed = true;
+        var result = await userManager.CreateAsync(usuario, senha);
 
-        await userManager.CreateAsync(usuario);
+        if (!result.Succeeded)
+        {
+            throw new InvalidOperationException($"Erro ao criar usuário, {result.Errors}");
+        }
+        
+        var claim = new Claim(nameof(TipoUsuario), usuario.Tipo.ToString(), ClaimValueTypes.String);
         await userManager.AddClaimAsync(usuario, claim);
     }
 
@@ -32,5 +39,10 @@ public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepos
         }
 
         return query.FirstAsync();
+    }
+
+    public Task<IList<Claim>> GetClaimsAsync(Usuario usuario)
+    {
+        return userManager.GetClaimsAsync(usuario);
     }
 }
