@@ -21,4 +21,9 @@ public class AgendaRepository : IAgendaRepository
         await _dbSet.AddAsync(agenda);
         await _applicationDbContext.SaveChangesAsync();
     }
+
+    public Task<Agenda> Get(Guid medicoId, DateTime data)
+    {
+        return _dbSet.FirstAsync(x => x.Id == medicoId && x.Data.Date == data.Date);
+    }
 }

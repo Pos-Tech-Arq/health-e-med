@@ -21,4 +21,9 @@ public class ConsultaRepository : IConsultaRepository
         await _dbSet.AddAsync(consulta);
         await _applicationDbContext.SaveChangesAsync();
     }
+
+    public Task<bool> ValidaSeExisteConsulta(Guid medicoId, DateTime data, TimeSpan horario)
+    {
+        return _dbSet.AnyAsync(c => c.Horario == horario && c.MedicoId == medicoId && c.Data.Date == data.Date);
+    }
 }

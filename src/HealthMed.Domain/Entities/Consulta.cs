@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using HealthMed.Core.Data;
 using HealthMed.Core.Entities;
+using HealthMed.Core.Enums;
 
 namespace HealthMed.Domain.Entities;
 
@@ -12,29 +13,14 @@ public class Consulta : Entidade, IAggregateRoot
         MedicoId = medicoId;
         Data = data;
         Horario = horario;
-        Status = "Pendente";
-    }
-
-    public void ConfirmarConsulta()
-    {
-        Status = "Confirmado";
-    }
-
-    public void CancelarConsulta()
-    {
-        Status = "Cancelado";
-    }
-
-    public void RecusarConsulta()
-    {
-        Status = "Recusado";
+        Status = StatusConsulta.Pendente;
     }
 
     public Guid PacienteId { get; private set; }
     public Guid MedicoId { get; private set; }
     public DateTime Data { get; private set; }
     public TimeSpan Horario { get; private set; }
-    public string Status { get; private set; }
+    public StatusConsulta Status { get; private set; }
 
 
     [ForeignKey("PacienteId")] public virtual Usuario Paciente { get; set; } 

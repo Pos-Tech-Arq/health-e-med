@@ -5,5 +5,6 @@ namespace HealthMed.Application.Contracts;
 public interface IAgendaRepository
 {
     Task Create(Agenda agenda);
-    
+
+    Task<Agenda> Get(Guid medicoId, DateTime data);
 }

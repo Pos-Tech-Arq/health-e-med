@@ -28,8 +28,7 @@ public class ConsultaMapping : IEntityTypeConfiguration<Consulta>
 
         builder.Property(c => c.Status)
             .IsRequired()
-            .HasMaxLength(50)
-            .HasDefaultValue("Pendente"); 
+            .HasMaxLength(50); 
     
         builder.HasOne(c => c.Paciente)
             .WithMany() 
