@@ -3,30 +3,44 @@ using HealthMed.Application.Responses;
 
 namespace HealthMed.Application.Services;
 
-public class FiltrarAgendaService(IAgendaRepository agendaRepository) : IFiltrarAgendaService
+public class FiltrarAgendaService(IAgendaRepository agendaRepository, IConsultaRepository consultaRepository)
+    : IFiltrarAgendaService
 {
     public async Task<List<AgendaDisponivelResponse>> FiltrarAgenda(Guid idMedico, DateTime? data = null)
     {
         var agendaCollection = await agendaRepository.Get(idMedico, data);
-        var agendaDisponivelCollectionResponse = new List<AgendaDisponivelResponse>();
-        foreach (var agendaAgrupadaPorDia in agendaCollection.GroupBy(a => a.Data))
-        {
-            var agendaDisponivelResponse = new AgendaDisponivelResponse(agendaAgrupadaPorDia.Key.ToString("MM/dd/yyyy"));
-            foreach (var agenda in agendaAgrupadaPorDia)
-            {
-                agendaDisponivelResponse.Set(agenda.Valor);
-                
-                var horarioAtual = agenda.HorarioInicio;
-                while (horarioAtual < agenda.HorarioFim)
-                {
-                    agendaDisponivelResponse.Add(horarioAtual);
-                    horarioAtual = horarioAtual.Add(new TimeSpan(1, 0, 0));
-                }
-            }
-            
-            agendaDisponivelCollectionResponse.Add(agendaDisponivelResponse);
-        }
+        var consultasExistentes = await consultaRepository.Get(idMedico, data);
 
-        return agendaDisponivelCollectionResponse;
+        return agendaCollection
+            .GroupBy(a => a.Data)
+            .Select(agendaAgrupadaPorDia =>
+            {
+                var agendaDisponivelResponse = new AgendaDisponivelResponse(
+                    agendaAgrupadaPorDia.Key.ToString("MM/dd/yyyy"));
+
+                foreach (var agenda in agendaAgrupadaPorDia)
+                {
+                    var horarios = GerarHorarios(agenda.HorarioInicio, agenda.HorarioFim)
+                        .Where(horario => !consultasExistentes.Any(c =>
+                            c.Data == agenda.Data && c.Horario == horario));
+
+                    agendaDisponivelResponse.Set(agenda.Valor);
+                    foreach (var horario in horarios)
+                    {
+                        agendaDisponivelResponse.Add(horario);
+                    }
+                }
+
+                return agendaDisponivelResponse;
+            })
+            .ToList();
+    }
+
+    private static IEnumerable<TimeSpan> GerarHorarios(TimeSpan inicio, TimeSpan fim)
+    {
+        for (var horario = inicio; horario < fim; horario = horario.Add(TimeSpan.FromHours(1)))
+        {
+            yield return horario;
+        }
     }
 }
