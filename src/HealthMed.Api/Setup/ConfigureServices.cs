@@ -7,10 +7,11 @@ public static class ConfigureServices
 {
     public static void AddServices(this IServiceCollection serviceCollection)
     {
-        serviceCollection.AddScoped<ICriaAgendaService, CriaAgendaService>();
+        serviceCollection.AddScoped<ICriarAlterarAgendaService, CriarAlterarAgendaService>();
         serviceCollection.AddScoped<IAgendarConsultaService, AgendarConsultaService>();
         serviceCollection.AddScoped<IAutenticaUsuarioService, AutenticaUsuarioService>();
         serviceCollection.AddScoped<IGerarTokenService, GerarTokenService>();
         serviceCollection.AddScoped<ICreateConsultaService, CreateConsultaService>();
+        serviceCollection.AddScoped<IFiltrarAgendaService, FiltrarAgendaService>();
     }
 }

@@ -10,8 +10,7 @@ namespace HealthMed.Application.Services;
 public class AutenticaUsuarioService(
     IUsuarioRepository usuarioRepository,
     IGerarTokenService tokenService,
-    SignInManager<Usuario> signInManager,
-    UserManager<Usuario> userManager)
+    SignInManager<Usuario> signInManager)
     : IAutenticaUsuarioService
 {
     public async Task<UsuarioLoginResponse> Handle(RegistrarUsuarioCommand command)
@@ -19,17 +18,9 @@ public class AutenticaUsuarioService(
         var usuario = new Usuario(command.Nome, command.Email, command.Tipo, command.Cpf, command.Crm,
             command.Especialidade);
 
-        var result = await userManager.CreateAsync(usuario);
-        
-        if (result.Succeeded)
-        {
-           await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
-        }
-        else
-        {
-            throw new DomainException("Dados de cadastro do usário inválido.");
-        }
+        await usuarioRepository.AddAsync(usuario, command.Senha);
 
+        await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
         return await tokenService.GerarJwt(usuario);
     }
 

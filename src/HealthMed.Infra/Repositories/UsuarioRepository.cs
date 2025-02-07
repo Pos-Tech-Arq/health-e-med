@@ -11,8 +11,6 @@ public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepos
 {
     public async Task AddAsync(Usuario usuario, string senha)
     {
-        // usuario.SecurityStamp = Guid.NewGuid().ToString();
-        usuario.EmailConfirmed = true;
         var result = await userManager.CreateAsync(usuario, senha);
 
         if (!result.Succeeded)
