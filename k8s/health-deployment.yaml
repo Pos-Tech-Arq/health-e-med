@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-api
+  labels:
+    app: health-api
+  annotations:
+    author: Francisco Santana
+    app-version: 1.0.0
+spec:
+  replicas : 1    
+  selector:
+    matchLabels:
+      app: health-api
+  template:
+    metadata:
+      labels:
+        app: health-api
+    spec:
+     containers:
+     - name: health-container
+       image: franciscoasantana/health-e-med:v2.2
+       ports:
+       - containerPort: 8080
+       volumeMounts:
+        - name: data-protection-volume
+          mountPath: /home/app/.aspnet/DataProtection-Keys
+     volumes:
+      - name: data-protection-volume
+        persistentVolumeClaim:
+          claimName: data-protection-pvc
