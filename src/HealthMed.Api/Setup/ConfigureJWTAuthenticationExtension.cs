@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using HealthMed.Core.Enums;
 using HealthMed.Core.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;

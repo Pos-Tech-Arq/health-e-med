@@ -29,9 +29,7 @@ public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : 
             return BadRequest(validationResult.Errors);
         }
 
-        await autenticaUsuarioService.Handle(command);
-        
-        return Ok(command);
+        return Ok(await autenticaUsuarioService.Handle(command));
     }
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OkObjectResult))]
