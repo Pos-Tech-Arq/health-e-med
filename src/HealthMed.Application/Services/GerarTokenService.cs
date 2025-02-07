@@ -33,6 +33,7 @@ public class GerarTokenService : IGerarTokenService
 
     private async Task<ClaimsIdentity> ObterClaimsUsuario(Usuario usuario, ICollection<Claim> claims)
     {
+        claims.Add(new Claim("UsuarioId", usuario.Id.ToString()));
         claims.Add(new Claim(JwtRegisteredClaimNames.Sub, usuario.Id.ToString()));
         claims.Add(new Claim(JwtRegisteredClaimNames.Email, usuario.Email));
         claims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));

@@ -19,17 +19,9 @@ public class AutenticaUsuarioService(
         var usuario = new Usuario(command.Nome, command.Email, command.Tipo, command.Cpf, command.Crm,
             command.Especialidade);
 
-        var result = await userManager.CreateAsync(usuario);
+        await usuarioRepository.AddAsync(usuario, command.Senha);
         
-        if (result.Succeeded)
-        {
-           await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
-        }
-        else
-        {
-            throw new DomainException("Dados de cadastro do usário inválido.");
-        }
-
+        await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
         return await tokenService.GerarJwt(usuario);
     }
 

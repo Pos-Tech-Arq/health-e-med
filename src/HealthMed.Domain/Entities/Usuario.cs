@@ -19,6 +19,7 @@ public class Usuario : IdentityUser<Guid>
         Cpf = cpf;
         Crm = crm;
         Especialidade = especialidade;
+        EmailConfirmed = true;
     }
 
     public TipoUsuario Tipo { get; private set; }

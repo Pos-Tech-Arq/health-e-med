@@ -13,6 +13,14 @@ public class Agenda : Entidade
         HorarioFim = horarioFim;
         Valor = valor;
     }
+    
+    public void Atualizar(DateTime data, TimeSpan horarioInicio, TimeSpan horarioFim, decimal valor)
+    {
+        Data = data;
+        HorarioInicio = horarioInicio;
+        HorarioFim = horarioFim;
+        Valor = valor;
+    }
 
     public Guid MedicoId { get; set; }
     public DateTime Data { get; private set; }
