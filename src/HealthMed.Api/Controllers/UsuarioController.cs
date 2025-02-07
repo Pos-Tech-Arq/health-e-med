@@ -1,11 +1,13 @@
 ﻿using HealthMed.Api.Requests;
 using HealthMed.Api.Responses;
 using HealthMed.Application.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HealthMed.Api.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/v1/[controller]")]
 public class UsuarioController : Controller
 {
