@@ -21,7 +21,11 @@ public class Consulta : Entidade, IAggregateRoot
     public DateTime Data { get; private set; }
     public TimeSpan Horario { get; private set; }
     public StatusConsulta Status { get; private set; }
-
+    
+    public void Atualizar(StatusConsulta status)
+    {
+        Status = status;
+    }
 
     [ForeignKey("PacienteId")] public virtual Usuario Paciente { get; set; } 
     [ForeignKey("MedicoId")] public virtual Usuario Medico { get; set; } 
