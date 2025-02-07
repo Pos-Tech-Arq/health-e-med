@@ -10,8 +10,7 @@ namespace HealthMed.Application.Services;
 public class AutenticaUsuarioService(
     IUsuarioRepository usuarioRepository,
     IGerarTokenService tokenService,
-    SignInManager<Usuario> signInManager,
-    UserManager<Usuario> userManager)
+    SignInManager<Usuario> signInManager)
     : IAutenticaUsuarioService
 {
     public async Task<UsuarioLoginResponse> Handle(RegistrarUsuarioCommand command)
@@ -20,7 +19,7 @@ public class AutenticaUsuarioService(
             command.Especialidade);
 
         await usuarioRepository.AddAsync(usuario, command.Senha);
-        
+
         await signInManager.PasswordSignInAsync(usuario.Email, command.Senha, false, false);
         return await tokenService.GerarJwt(usuario);
     }
