@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using HealthMed.Api.Middleware;
 using HealthMed.Api.Setup;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,5 +27,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 app.UseIdentityConfiguration();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 app.MapControllers();
 app.Run();
