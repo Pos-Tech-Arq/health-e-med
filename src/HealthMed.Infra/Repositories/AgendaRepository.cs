@@ -21,6 +21,18 @@ public class AgendaRepository : IAgendaRepository
         return _dbSet.FirstAsync(a => a.Id == id);
     }
 
+    public Task<List<Agenda>> Get(Guid medicoId, DateTime? data = null)
+    {
+        var query = _dbSet.Where(a => a.MedicoId == medicoId).AsQueryable();
+
+        if (data != null)
+        {
+            query = query.Where(a => a.Data == data);
+        }
+
+        return query.ToListAsync();
+    }
+
     public Task Create(Agenda agenda)
     {
         _dbSet.AddAsync(agenda);
