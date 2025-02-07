@@ -27,7 +27,7 @@ public class AutenticaUsuarioService(
         }
         else
         {
-            throw new DomainException("Dados de cadastro do uusário inválido.");
+            throw new DomainException("Dados de cadastro do usário inválido.");
         }
 
         return await tokenService.GerarJwt(usuario);

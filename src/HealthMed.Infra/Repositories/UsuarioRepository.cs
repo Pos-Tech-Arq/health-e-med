@@ -19,7 +19,7 @@ public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepos
         {
             throw new InvalidOperationException($"Erro ao criar usuário, {result.Errors}");
         }
-        
+
         var claim = new Claim(nameof(TipoUsuario), usuario.Tipo.ToString(), ClaimValueTypes.String);
         await userManager.AddClaimAsync(usuario, claim);
     }
@@ -44,5 +44,22 @@ public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepos
     public Task<IList<Claim>> GetClaimsAsync(Usuario usuario)
     {
         return userManager.GetClaimsAsync(usuario);
+    }
+
+    public async Task<IEnumerable<Usuario>> GetUsuarios(TipoUsuario? tipoUsuario, string? especialidade)
+    {
+        var query = userManager.Users.AsQueryable();
+
+        if (tipoUsuario != null)
+        {
+            query = query.Where(c => c.Tipo == tipoUsuario);
+        }
+
+        if (!string.IsNullOrEmpty(especialidade))
+        {
+            query = query.Where(c => c.Especialidade == especialidade);
+        }
+
+        return await query.ToListAsync();
     }
 }
