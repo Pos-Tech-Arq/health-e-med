@@ -4,27 +4,20 @@ using HealthMed.Domain.Entities;
 
 namespace HealthMed.Application.Services;
 
-public class CreateConsultaService : ICreateConsultaService
+public class CreateConsultaService(IConsultaRepository consultaRepository, IAgendaRepository agendaRepository)
+    : ICreateConsultaService
 {
-    private readonly IConsultaRepository _consultaRepository;
-    private readonly IAgendaRepository _agendaRepository;
-
-    public CreateConsultaService(IConsultaRepository consultaRepository)
-    {
-        _consultaRepository = consultaRepository;
-    }
-
     public async Task CreateConsulta(CreateConsultaCommand command)
     {
         var existeConsulta =
-            await _consultaRepository.ValidaSeExisteConsulta(command.MedicoId, command.Data, command.Horario);
+            await consultaRepository.ValidaSeExisteConsulta(command.MedicoId, command.Data, command.Horario);
 
         if (existeConsulta)
         {
-            throw new ArgumentException("Já existe consulta com o medico");
+            throw new ArgumentException("Já existe consulta nesse horario com esse medico.");
         }
 
-        var agenda = await _agendaRepository.Get(command.MedicoId, command.Data);
+        var agenda = await agendaRepository.Get(command.MedicoId, command.Data);
 
         if (command.Horario < agenda.HorarioInicio || command.Horario > agenda.HorarioFim)
         {
@@ -34,6 +27,6 @@ public class CreateConsultaService : ICreateConsultaService
 
         var consulta = new Consulta(command.PacientId, command.MedicoId, command.Data, command.Horario);
 
-        await _consultaRepository.Create(consulta);
+        await consultaRepository.Create(consulta);
     }
 }

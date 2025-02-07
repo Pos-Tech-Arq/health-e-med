@@ -47,6 +47,6 @@ public class AgendaRepository : IAgendaRepository
 
     public Task<Agenda> Get(Guid medicoId, DateTime data)
     {
-        return _dbSet.FirstAsync(x => x.Id == medicoId && x.Data.Date == data.Date);
+        return _dbSet.FirstAsync(x => x.MedicoId == medicoId && x.Data.Date == data.Date);
     }
 }
