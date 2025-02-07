@@ -19,21 +19,13 @@ spec:
     spec:
      containers:
      - name: health-container
-       image: franciscoasantana/health-e-med:v2.0
+       image: franciscoasantana/health-e-med:v2.2
        ports:
        - containerPort: 8080
-       livenessProbe:
-         httpGet:
-           path: /health
-           port: 8080
-         initialDelaySeconds: 5
-         periodSeconds: 10
-         failureThreshold: 3
-         successThreshold: 1
-         timeoutSeconds: 2
        volumeMounts:
-            - name: dataprotect-keys-volume
-              mountPath: /home/app/.aspnet/DataProtection-Keys
+        - name: data-protection-volume
+          mountPath: /home/app/.aspnet/DataProtection-Keys
      volumes:
-        - name: dataprotect-keys-volume
-          emptyDir: {}
+      - name: data-protection-volume
+        persistentVolumeClaim:
+          claimName: data-protection-pvc

@@ -21,12 +21,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealthMed.Application", "sr
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "k8s", "k8s", "{42D2907E-E586-496C-B13F-E43127A0413B}"
 	ProjectSection(SolutionItems) = preProject
-		k8s\configmap.yaml = k8s\configmap.yaml
+		Dockerfile = Dockerfile
 		k8s\health-deployment.yaml = k8s\health-deployment.yaml
+		k8s\health-pv.yaml = k8s\health-pv.yaml
+		k8s\health-pvc.yaml = k8s\health-pvc.yaml
 		k8s\health-service.yml = k8s\health-service.yml
 		k8s\pv.yaml = k8s\pv.yaml
 		k8s\pvc.yaml = k8s\pvc.yaml
-		k8s\sql.yaml = k8s\sql.yaml
 		k8s\sqlserver-deployment.yaml = k8s\sqlserver-deployment.yaml
 		k8s\sqlserver-service.yaml = k8s\sqlserver-service.yaml
 	EndProjectSection
