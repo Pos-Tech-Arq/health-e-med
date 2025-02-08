@@ -1,9 +1,11 @@
-﻿namespace HealthMed.Core.Enums;
+﻿using System.ComponentModel;
+
+namespace HealthMed.Core.Enums;
 
 public enum StatusConsulta
 {
-    Pendente = 1,
-    Confirmado = 2,
-    Recusado = 3,
-    Cancelado = 4
+    [Description("Pendente")] Pendente = 1,
+    [Description("Confirmado")]Confirmado = 2,
+    [Description("Recusado")]Recusado = 3,
+    [Description("Cancelado")]Cancelado = 4
 }

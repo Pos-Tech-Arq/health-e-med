@@ -15,7 +15,8 @@ public class UsuarioRepository(UserManager<Usuario> userManager) : IUsuarioRepos
 
         if (!result.Succeeded)
         {
-            throw new InvalidOperationException($"Erro ao criar usuário, {string.Concat(result.Errors.Select(c => c.Description))} ");
+            var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new InvalidOperationException($"Erro ao criar usuário, {errorMessages}");
         }
 
         var claim = new Claim(nameof(TipoUsuario), usuario.Tipo.ToString(), ClaimValueTypes.String);

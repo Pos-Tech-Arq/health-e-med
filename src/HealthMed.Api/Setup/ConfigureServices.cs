@@ -13,5 +13,6 @@ public static class ConfigureServices
         serviceCollection.AddScoped<IGerarTokenService, GerarTokenService>();
         serviceCollection.AddScoped<ICreateConsultaService, CreateConsultaService>();
         serviceCollection.AddScoped<IFiltrarAgendaService, FiltrarAgendaService>();
+        serviceCollection.AddScoped<IAtualizarConsultaService, AtualizarConsultaService>();
     }
 }
