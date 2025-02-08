@@ -1,6 +1,7 @@
 ﻿global using HealthMed.Api.Controllers;
 global using HealthMed.Application.Commands;
 global using HealthMed.Application.Contracts;
+using HealthMed.Application.Services;
 
 namespace HealthMed.UnitTests.Controllers;
 
@@ -9,12 +10,14 @@ public class ConsultasControllerCreateConsultaTest
     protected ConsultasController _consultasController;
     protected Mock<ICreateConsultaService> _createConsultaService;
     protected Mock<IAgendaRepository> _agendaRepository;
+    protected Mock<IAtualizarConsultaService> _atualizarConsultaService;
 
     public ConsultasControllerCreateConsultaTest()
     {
         _createConsultaService = new Mock<ICreateConsultaService>();
         _agendaRepository = new Mock<IAgendaRepository>();
-        _consultasController = new ConsultasController(_createConsultaService.Object);
+        _atualizarConsultaService = new Mock<IAtualizarConsultaService>();
+        _consultasController = new ConsultasController(_createConsultaService.Object, _atualizarConsultaService.Object);
     }
 
     [Fact]
