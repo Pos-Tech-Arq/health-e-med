@@ -15,11 +15,10 @@ public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : 
 {
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(NoContent))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BadRequestObjectResult))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(NotFoundResult))]
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] RegistrarUsuarioCommand command)
     {
-        if (command == null) return NotFound();
+        if (command == null) return BadRequest("A request não pode ser vazia.");
 
         var validator = new RegistrarUsuarioCommandValidator();
         var validationResult = await validator.ValidateAsync(command);
@@ -34,11 +33,10 @@ public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : 
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OkObjectResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BadRequestObjectResult))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(NotFoundResult))]
     [HttpPost("paciente/login")]
     public async Task<IActionResult> LoginPaciente([FromBody] LoginPacienteCommand command)
     {
-        if (command == null) return NotFound();
+        if (command == null) return BadRequest("A request não pode ser vazia.");
 
         var validator = new LoginPacienteCommandValidator();
         var validationResult = await validator.ValidateAsync(command);
@@ -51,11 +49,10 @@ public class AuthController(IAutenticaUsuarioService autenticaUsuarioService) : 
 
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OkObjectResult))]
     [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(BadRequestObjectResult))]
-    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(NotFoundResult))]
     [HttpPost("medico/login")]
     public async Task<IActionResult> LoginMedico([FromBody] LoginMedicoCommand command)
     {
-        if (command == null) return NotFound();
+        if (command == null) return BadRequest("A request não pode ser vazia.");
 
         var validator = new LoginMedicoCommandValidator();
         var validationResult = await validator.ValidateAsync(command);

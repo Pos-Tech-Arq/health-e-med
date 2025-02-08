@@ -3,6 +3,7 @@ using HealthMed.Api.Responses;
 using HealthMed.Application.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace HealthMed.Api.Controllers;
 
@@ -21,6 +22,9 @@ public class UsuarioController : Controller
     [HttpGet]
     public async Task<IActionResult> GetUsuarios([FromQuery] GetUsuariosRequest getUsuariosRequest)
     {
+        if (getUsuariosRequest == null)
+            return BadRequest("A request não pode ser vazia.");
+
         var usuarios =
             await _usuarioRepository.GetUsuarios(getUsuariosRequest.TipoUsuario, getUsuariosRequest.Especialidade);
 
