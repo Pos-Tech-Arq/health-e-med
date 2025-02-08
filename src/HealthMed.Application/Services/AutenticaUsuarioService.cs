@@ -40,7 +40,7 @@ public class AutenticaUsuarioService(
         return await tokenService.GerarJwt(usuario);
     }
 
-    private async Task ValidaLogin(string senha, Usuario usuario)
+    public async Task ValidaLogin(string senha, Usuario usuario)
     {
         var result = await signInManager.PasswordSignInAsync(usuario.Email, senha, false, false);
 

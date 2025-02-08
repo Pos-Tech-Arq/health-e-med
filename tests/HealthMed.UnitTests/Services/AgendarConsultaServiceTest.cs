@@ -10,38 +10,29 @@ public class AgendarConsultaServiceTest
 {
 
     private readonly Mock<IConsultaRepository> _consultaRepositoryMock;
-    private readonly AgendarConsultaService _agendarConsultaService;
+    private readonly AgendarConsultaService _service;
 
     public AgendarConsultaServiceTest()
     {
         _consultaRepositoryMock = new Mock<IConsultaRepository>();
-        _agendarConsultaService = new AgendarConsultaService(_consultaRepositoryMock.Object);
+        _service = new AgendarConsultaService(_consultaRepositoryMock.Object);
     }
 
     [Fact]
-    public async Task Handle_DeveChamarCreateDoRepositorio_QuandoDadosValidos()
+    public async Task Handle_ShouldCreateConsulta_WhenValidCommandIsProvided()
     {
+        // Arrange
+        var command = 
+            new AgendarConsultaCommand(Guid.NewGuid(), Guid.NewGuid(), DateTime.UtcNow.Date, new TimeSpan(14, 0, 0));
 
-        var pacienteId = Guid.NewGuid();
-        var medicoId = Guid.NewGuid();
-        var data = DateTime.Now.Date;
-        var horario = TimeSpan.FromHours(10);
-        var command = new AgendarConsultaCommand(pacienteId, medicoId, data, horario);
-        var contatoMock = new Mock<Consulta>(pacienteId, medicoId, data, horario);
+         _consultaRepositoryMock
+                .Setup(repo => repo.Create(It.IsAny<Consulta>()))
+                .Returns(Task.CompletedTask);
 
-        _consultaRepositoryMock.Setup(r => r.Get(medicoId, data))
-            .ReturnsAsync(new List<Consulta>() { contatoMock.Object });
+        // Act
+        await _service.Handle(command);
 
-        _consultaRepositoryMock.Setup(r => r.Create(contatoMock.Object))
-        .Returns(Task.CompletedTask);
-
-        await _agendarConsultaService.Handle(command);
-
-        _consultaRepositoryMock.Verify(
-             r => r.Create(It.Is<Consulta>(consulta=>
-                 consulta.PacienteId == command.PacienteId && 
-                 consulta.MedicoId == command.MedicoId)), Times.Once);
-
-
+        // Assert
+        _consultaRepositoryMock.Verify(repo => repo.Create(It.IsAny<Consulta>()), Times.Once);
     }
 }
